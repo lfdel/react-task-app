@@ -1,19 +1,22 @@
 
 import React, { useState } from "react"
+import shortid from "shortid"
 
 function App() {
 
-  const [task, setTask] = useState("")
+
   const [tasks, setTasks] = useState([])
+  const [nameTask, setNameTask] = useState("")
+
 
   const handleKeyEnter = (event) => {
     if (event.key === 'Enter') {
       const newTask = {
-        id: 1,
-        task
+        id: shortid.generate(),
+        name: nameTask
       }
-      setTasks([ ...tasks, newTask])
-      setTask('')
+      tasks.push(newTask)
+      setNameTask('')
       console.log(tasks);
     }
   }
@@ -23,15 +26,21 @@ function App() {
       <h1>Mis tareas</h1>
       <input className="form-control form-control-lg"
         type="text"
-        placeholder="Escriba una tarea"
-        onChange={(e) => setTask(e.target.value)}
-        value={task}
-        onKeyPress={handleKeyEnter}
+        placeholder="Escriba una tarea, luego presiona ENTER"
+        onChange={(e) => setNameTask(e.target.value)}
+        value={nameTask}
+        onKeyUp={handleKeyEnter}
         autoFocus
       />
-      <div className="row">
-        <div className="col-12"></div>
-      </div>
+      <ul className="list-group mt-5">
+        {
+          tasks.map((task) => (
+            <li className="list-group-item" key={task.id}>
+              <span>{task.name}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   );
 }
