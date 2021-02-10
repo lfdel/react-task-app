@@ -5,7 +5,7 @@ import shortid from "shortid"
 function App() {
 
 
-  const [tasks, setTasks] = useState([])
+  const [tasks] = useState([])
   const [nameTask, setNameTask] = useState("")
 
 
@@ -17,8 +17,15 @@ function App() {
       }
       tasks.push(newTask)
       setNameTask('')
-      console.log(tasks);
     }
+  }
+
+  const handelEditTask = (task) => {
+    alert(task.name)
+  }
+  
+  const handelDeleteTask = (task) => {
+    alert(task.name)
   }
 
   return (
@@ -32,15 +39,40 @@ function App() {
         onKeyUp={handleKeyEnter}
         autoFocus
       />
-      <ul className="list-group mt-5">
-        {
-          tasks.map((task) => (
-            <li className="list-group-item" key={task.id}>
-              <span>{task.name}</span>
-            </li>
-          ))
-        }
-      </ul>
+      <label className="mt-2">#{tasks.length}</label>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            tasks.map(
+              (task, index) => (
+                <tr>
+                  <th scope="row">{index + 1}</th>
+                  <td>Estado</td>
+                  <td>{task.name}</td>
+                  <td>
+                    <button onClick={() => handelEditTask(task)}
+                      type="button" class="btn btn-warning">Editar</button>
+                  </td>
+                  <td>
+                    <button onClick={() => handelDeleteTask(task)}
+                      type="button" class="btn btn-danger">Eliminar</button>
+                  </td>
+                </tr>
+              )
+            )
+          }
+        </tbody>
+      </table>
     </div>
   );
 }
