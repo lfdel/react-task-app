@@ -1,12 +1,14 @@
 
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import shortid from "shortid"
 
 function App() {
 
 
-  const [tasks] = useState([])
+  const [tasks, setTasks] = useState([])
   const [nameTask, setNameTask] = useState("")
+  const refInput = useRef(null)
+
 
 
   const handleKeyEnter = (event) => {
@@ -23,17 +25,20 @@ function App() {
   const handelEditTask = (task) => {
     alert(task.name)
   }
-  
+
   const handelDeleteTask = (task) => {
-    alert(task.name)
+    setTasks(tasks.filter((t) => (t.id !== task.id)))
+    refInput.current.focus();
   }
 
   return (
     <div className="container mt-5">
       <h1>Mis tareas</h1>
-      <input className="form-control form-control-lg"
+      <input
+        ref={refInput}
+        className="form-control form-control-lg"
         type="text"
-        placeholder="Escriba una tarea, luego presiona ENTER"
+        placeholder="ENTER para agregar una tarea"
         onChange={(e) => setNameTask(e.target.value)}
         value={nameTask}
         onKeyUp={handleKeyEnter}
